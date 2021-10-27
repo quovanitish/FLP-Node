@@ -21,3 +21,27 @@ delay
     console.log(err);
   });
 console.log("End");
+
+/*Using setInterval() */
+console.log("Start");
+const rollDice = () => {
+  return Math.round(6 * Math.random());
+};
+
+const intervalId = setInterval(() => {
+  let diceNumber = rollDice();
+
+  if (diceNumber === 1) {
+    console.log(`You got ${diceNumber}, so you can start the game`);
+  } else if (diceNumber === 6) {
+    console.log(`You got ${diceNumber}, so you can start the game`);
+  } else {
+    console.log(`Oops, you got ${diceNumber} please roll the dice again`);
+  }
+}, 2000);
+
+// clear dice rolling interval after 10 seconds
+setTimeout(() => {
+  clearInterval(intervalId);
+}, 9000);
+console.log("End");
