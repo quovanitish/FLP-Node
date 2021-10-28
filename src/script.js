@@ -2,15 +2,19 @@
 console.log("Start");
 setTimeout(() => {
   console.log("Set timeout called");
-}, 5000);
+}, 2000);
 console.log("End");
 
 // 2. Using promise
 console.log("Start");
 const delay = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("Promise resolved after 5 seconds");
-  }, 5000);
+  let startTime = new Date().getTime();
+  let endTime = startTime;
+
+  while (endTime < startTime + 5000) {
+    endTime = new Date().getTime();
+  }
+  resolve("While loop expired after 5 seconds");
 });
 
 delay
