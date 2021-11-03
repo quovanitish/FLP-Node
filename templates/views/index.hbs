@@ -9,7 +9,18 @@
   <body>
     <div class="main-content">
     {{>header}}
-    <p>Weather info</p>
+    <p id="title">Weather info</p>
+
+    <form>
+      <div>
+      <input placeholder="Location">
+      <button>Search</button>
+      </div>
+    </form>
+
+    <p id="location"></p>
+    <p id="forecast"></p>
     </div>
+    <script src="/js/script.js"></script>
   </body>
 </html>

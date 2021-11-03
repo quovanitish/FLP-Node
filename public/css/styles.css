@@ -22,3 +22,38 @@ h1 {
 .main-content {
   flex-grow: 1;
 }
+
+#title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+form div {
+  display: flex;
+}
+
+input {
+  min-width: 80%;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  outline: none;
+  padding-right: 2rem;
+}
+
+button {
+  min-width: 20%;
+  min-height: 100%;
+  width: 50%;
+  font-size: 1.2rem;
+  background-color: aliceblue;
+  border: 1px solid blue;
+  cursor: pointer;
+}
+
+#location {
+  font-size: 2rem;
+}
+
+#forecast {
+  font-size: 2rem;
+}
