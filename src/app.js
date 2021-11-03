@@ -20,6 +20,10 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("*", (req, res) => {
+  res.render("wildcard", { errorMessage: "Error 404: Page not found." });
+});
+
 app.listen(port, () => {
   console.log(`Server is up on port: ${port}`);
 });
