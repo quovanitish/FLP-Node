@@ -1,13 +1,12 @@
 const request = require("request");
 
 const forecast = (latitude, longitude, callback) => {
-  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=052dd5f7c32b098a2cbbcfc0e5df43a1`;
+  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=`;
 
   request({ url, json: true }, (error, { body }) => {
     if (error) {
       callback("Unable to connect to weather service!", undefined);
-    } 
-    else if (!body.list) {
+    } else if (!body.list) {
       callback("Unable to find location", undefined);
     } else {
       callback(
