@@ -1,7 +1,8 @@
 const request = require("request");
+require("dotenv").config();
 
 const geocode = (address, callback) => {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${address}&appid=`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${address}&appid=${process.env.API_TOKEN}`;
 
   request({ url, json: true }, (error, { body }) => {
     if (error) {
