@@ -7,6 +7,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// create a new user
 app.post("/users", (req, res) => {
   const user = new User(req.body);
   user
@@ -15,7 +16,22 @@ app.post("/users", (req, res) => {
       res.send(user);
     })
     .catch((error) => {
-      console.log(error);
+      res.status(400);
+      res.send(error);
+    });
+});
+
+// create a new task
+app.post("/tasks", (req, res) => {
+  const task = new Task(req.body);
+  task
+    .save()
+    .then(() => {
+      res.send(task);
+    })
+    .catch((error) => {
+      res.status(400);
+      res.send(error);
     });
 });
 
