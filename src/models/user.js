@@ -41,17 +41,4 @@ const User = mongoose.model("User", {
   },
 });
 
-// Model for a Task
-const Task = mongoose.model("Task", {
-  description: {
-    type: String,
-  },
-  completed: {
-    type: Boolean,
-  },
-});
-
-module.exports = {
-  User,
-  Task,
-};
+module.exports = User;
