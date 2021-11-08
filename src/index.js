@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 require("./db/mongoose");
 const User = require("./models/user");
 const Task = require("./models/task");
@@ -13,10 +14,42 @@ app.post("/users", (req, res) => {
   user
     .save()
     .then(() => {
+      res.status(201);
       res.send(user);
     })
     .catch((error) => {
       res.status(400);
+      res.send(error);
+    });
+});
+
+// get all users
+app.get("/users", (req, res) => {
+  User.find({})
+    .then((users) => {
+      res.send(users);
+    })
+    .catch((error) => {
+      res.status(500);
+      res.send(error);
+    });
+});
+
+// get user by id
+app.get("/users/:id", (req, res) => {
+  const userId = req.params.id;
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        res.status(404);
+        res.send();
+        return;
+      }
+
+      res.send(user);
+    })
+    .catch((error) => {
+      res.status(500);
       res.send(error);
     });
 });
@@ -27,6 +60,7 @@ app.post("/tasks", (req, res) => {
   task
     .save()
     .then(() => {
+      res.status(201);
       res.send(task);
     })
     .catch((error) => {
