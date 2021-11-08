@@ -1,0 +1,40 @@
+body {
+  color: #333333;
+  font-family: arial;
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex-grow: 1;
+}
+
+p {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+input {
+  min-width: 100%;
+  font-size: 1.5rem;
+  padding: 0.1rem;
+  outline: none;
+  padding-right: 2rem;
+}
+
+.button button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50%;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  background-color: aliceblue;
+  border: 1px solid blue;
+  cursor: pointer;
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}
