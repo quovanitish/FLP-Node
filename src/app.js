@@ -14,6 +14,7 @@ app.set("view engine", "hbs");
 app.set("views", viewsPath);
 hbs.registerPartials(partialsPath);
 app.use(express.static(publicPath));
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -27,22 +28,35 @@ app.get("/weather", (req, res) => {
     return res.send({ error: "You must provide an address" });
   }
 
-  geocode(req.query.address, (error, { latitude, longitude, location } = {}) => {
-    if (error) {
-      return res.send({ error });
-    }
-    forecast(latitude, longitude, (error, forecastData) => {
+  geocode(
+    req.query.address,
+    (error, { latitude, longitude, location } = {}) => {
       if (error) {
         return res.send({ error });
       }
+      forecast(latitude, longitude, (error, forecastData) => {
+        if (error) {
+          return res.send({ error });
+        }
 
-      res.send({
-        forecast: forecastData,
-        location,
-        address: req.query.address,
+        res.send({
+          forecast: forecastData,
+          location,
+          address: req.query.address,
+        });
       });
-    });
-  });
+    }
+  );
+});
+
+app.get("/feedback", (req, res) => {
+  res.render("feedback");
+});
+
+app.post("/submit", (req, res) => {
+  const feedback = req.body;
+  res.redirect("/");
+  console.log(feedback);
 });
 
 app.get("*", (req, res) => {
