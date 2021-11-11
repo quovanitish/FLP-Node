@@ -1,66 +1,76 @@
 const fs = require("fs");
+const AppError = require("../utils/appError");
 const filePath = "./db/data.json";
 
-function updateFile(jsonData, req, res) {
-  const data = JSON.stringify(jsonData, null, 2);
-  fs.writeFile(filePath, data, function (error) {
-    if (error) {
-      res.status(400);
-      res.send(error);
-      return;
-    }
-    res.send(jsonData);
-  });
+function updateFile(jsonData, req, res, next) {
+  try {
+    const data = JSON.stringify(jsonData, null, 2);
+    fs.writeFile(filePath, data, function (error) {
+      if (error) {
+        res.status(400);
+        res.send(error);
+        return;
+      }
+      res.send(jsonData);
+    });
+  } catch (error) {
+    next(error);
+  }
 }
 
 module.exports = {
-  getAllUsers: (req, res) => {
-    fs.readFile(filePath, "utf-8", function (error, data) {
-      if (error) {
-        res.status(403);
-        res.send(error);
-        return;
-      }
-      res.send(data);
-    });
-  },
-
-  getUserById: (req, res) => {
-    fs.readFile(filePath, "utf-8", function (error, data) {
-      if (error) {
-        res.status(403);
-        res.send(error);
-        return;
-      }
-
-      let paramId = req.params.id;
-      let jsonData = JSON.parse(data);
-      let userData = jsonData.filter((userObj) => {
-        return userObj.id == paramId;
+  getAllUsers: (req, res, next) => {
+    try {
+      fs.readFile(filePath, "utf-8", function (error, data) {
+        if (error) {
+          throw new AppError(error.message, error.status);
+        }
+        res.send(data);
       });
-
-      if (userData.length == 0) {
-        res.status(404);
-        res.send(userData);
-      } else {
-        res.send(userData);
-      }
-    });
+    } catch (error) {
+      next(error);
+    }
   },
 
-  updateUsers: (req, res) => {
-    fs.readFile(filePath, "utf-8", function (error, data) {
-      if (error) {
-        res.status(403);
-        res.send(error);
-        return;
-      }
+  getUserById: (req, res, next) => {
+    try {
+      fs.readFile(filePath, "utf-8", function (error, data) {
+        if (error) {
+          throw AppError(error.message, error.status);
+        }
 
-      let jsonData = JSON.parse(data);
-      if (Object.keys(req.body).length > 0) {
-        jsonData.push(req.body);
-      }
-      updateFile(jsonData, req, res);
-    });
+        let paramId = req.params.id;
+        let jsonData = JSON.parse(data);
+        let userData = jsonData.filter((userObj) => {
+          return userObj.id == paramId;
+        });
+
+        if (userData.length == 0) {
+          throw new AppError("User not found", 404);
+        } else {
+          res.send(userData);
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  updateUsers: (req, res, next) => {
+    try {
+      fs.readFile(filePath, "utf-8", function (error, data) {
+        if (error) {
+          throw new AppError(error.message, error.status);
+        }
+
+        let jsonData = JSON.parse(data);
+        if (Object.keys(req.body).length > 0) {
+          jsonData.push(req.body);
+        }
+        updateFile(jsonData, req, res, next);
+      });
+    } catch (error) {
+      next(error);
+    }
   },
 };
