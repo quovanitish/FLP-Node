@@ -7,9 +7,7 @@ function updateFile(jsonData, req, res, next) {
     const data = JSON.stringify(jsonData, null, 2);
     fs.writeFile(filePath, data, function (error) {
       if (error) {
-        res.status(400);
-        res.send(error);
-        return;
+        throw new AppError(error.message, error.status);
       }
       res.send(jsonData);
     });
