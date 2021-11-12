@@ -2,48 +2,43 @@ const express = require("express");
 const router = express.Router();
 const Task = require("../models/task");
 
-router.post("/tasks", (req, res) => {
+router.post("/tasks", async (req, res) => {
   const task = new Task(req.body);
-  task
-    .save()
-    .then(() => {
-      res.status(201);
-      res.send(task);
-    })
-    .catch((error) => {
-      res.status(400);
-      res.send(error);
-    });
+  try {
+    await task.save();
+    res.status(201);
+    res.send(task);
+  } catch (error) {
+    res.status(400);
+    res.send(error);
+  }
 });
 
-router.get("/tasks", (req, res) => {
-  Task.find({})
-    .then((tasks) => {
-      res.send(tasks);
-    })
-    .catch((error) => {
-      res.status(500);
-      res.send(error);
-    });
+router.get("/tasks", async (req, res) => {
+  try {
+    const tasks = await Task.find({});
+    res.send(tasks);
+  } catch (error) {
+    res.status(404);
+    res.send(error);
+  }
 });
 
-router.get("/tasks/:id", (req, res) => {
-  const id = req.params.id;
+router.get("/tasks/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const task = await Task.findById(id);
+    if (!task) {
+      res.status(404);
+      res.send();
+      return;
+    }
 
-  Task.findById(id)
-    .then((task) => {
-      if (!task) {
-        res.status(404);
-        res.send();
-        return;
-      }
-
-      res.send(task);
-    })
-    .catch((error) => {
-      res.status(500);
-      res.send(error);
-    });
+    res.send(task);
+  } catch (error) {
+    res.status(404);
+    res.send(error);
+  }
 });
 
 module.exports = router;
