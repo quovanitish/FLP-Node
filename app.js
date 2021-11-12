@@ -6,6 +6,9 @@ const { errorHandlerMiddleware } = require("./middlewares/errorMiddlewares");
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+app.get("/", (req, res) => {
+  res.send({ response: "Use /user to interact" });
+});
 
 app.use(express.json());
 app.use(userRouteHandler);
