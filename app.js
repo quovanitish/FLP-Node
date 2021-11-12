@@ -1,6 +1,6 @@
 const express = require("express");
-const userRouteHandler = require("./handlers/userRouteHandler");
-const { routeNotFound } = require("./handlers/errorHandler");
+const userRouteHandler = require("./router/userRouteHandler");
+const { routeNotFound } = require("./controllers/errorHandler");
 const { errorHandlerMiddleware } = require("./middlewares/errorMiddlewares");
 
 const PORT = process.env.PORT || 3000;
